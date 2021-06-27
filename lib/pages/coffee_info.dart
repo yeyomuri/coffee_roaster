@@ -6,6 +6,7 @@ import 'package:focused_menu/modals.dart';
 import 'package:mm_app/main.dart';
 import 'package:mm_app/my_flutter_app_icons.dart';
 import 'package:mm_app/pages/personalized_coffee.dart';
+import 'package:mm_app/pages/registro_contable.dart';
 
 const List<StaggeredTile> staggeredTiles = [
   StaggeredTile.count(1, 2), //0
@@ -94,9 +95,9 @@ List<Widget> tiles = [
   _Example01Tile(
     //3
     backgroundColor: Colors.yellow,
-    iconData: MyFlutterApp.coffe_bean,
-    beanColor: Colors.deepOrange,
-    title: 'Config',
+    iconData: Icons.event_note,
+    beanColor: Colors.blueAccent,
+    title: 'Registro',
   ),
   _Example01Tile(
     backgroundColor: Colors.yellow[400],
@@ -214,7 +215,7 @@ class _Example01Tile extends StatelessWidget {
       animateMenuItems: false,
       menuOffset: 12,
       openWithTap:
-          title == 'Personalizado' || title == 'Perfiles' || title == 'Config'
+          title == 'Personalizado' || title == 'Perfiles' || title == 'Registro'
               ? false
               : true,
       onPressed: () {
@@ -223,6 +224,13 @@ class _Example01Tile extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => PersonalizedCoffee(),
+            ),
+          );
+        } else if (title == 'Registro') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RegistroContable(),
             ),
           );
         }

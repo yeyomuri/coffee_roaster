@@ -126,7 +126,6 @@ class NoteFormWidget extends StatelessWidget {
         ),
         Expanded(
           child: TextFormField(
-            cursorColor: Colors.white,
             keyboardType: TextInputType.number,
             maxLines: 1,
             initialValue: initialXValue,
@@ -144,7 +143,6 @@ class NoteFormWidget extends StatelessWidget {
         Expanded(
           flex: 1,
           child: TextFormField(
-            cursorColor: Colors.white,
             keyboardType: TextInputType.number,
             maxLines: 1,
             initialValue: initialYValue,
@@ -162,7 +160,6 @@ class NoteFormWidget extends StatelessWidget {
       ]);
 
   Widget buildTitle() => TextFormField(
-        cursorColor: Colors.white,
         maxLines: 1,
         initialValue: title,
         style: TextStyle(

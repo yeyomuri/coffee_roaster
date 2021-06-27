@@ -124,10 +124,11 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
 
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        onPrimary: Colors.white70,
-        primary: isFormValid ? null : Color.fromRGBO(194, 155, 97, 1),
-      ),
+          textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          onPrimary: Colors.brown[400],
+          primary: isFormValid
+              ? Colors.yellow
+              : Theme.of(context).unselectedWidgetColor),
       onPressed: addOrUpdateNote,
       child: Text('Guardar'),
     );
@@ -144,8 +145,8 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       } else {
         await addNote();
       }
+      Navigator.pop(context);
     }
-    Navigator.pop(context);
   }
 
   Future updateNote() async {
