@@ -18,7 +18,7 @@ class NoteFormWidget extends StatelessWidget {
   final ValueChanged<String> onChangedDescription;
 
   const NoteFormWidget({
-    Key key,
+    Key? key,
     this.title = '',
     this.description = '',
     this.ax = '',
@@ -31,18 +31,18 @@ class NoteFormWidget extends StatelessWidget {
     this.dy = '',
     this.ex = '',
     this.ey = '',
-    @required this.onChangedTitle,
-    @required this.onChangedDescription,
-    @required this.onChangedAx,
-    @required this.onChangedAy,
-    @required this.onChangedBx,
-    @required this.onChangedBy,
-    @required this.onChangedCx,
-    @required this.onChangedCy,
-    @required this.onChangedDx,
-    @required this.onChangedDy,
-    @required this.onChangedEx,
-    @required this.onChangedEy,
+    required this.onChangedTitle,
+    required this.onChangedDescription,
+    required this.onChangedAx,
+    required this.onChangedAy,
+    required this.onChangedBx,
+    required this.onChangedBy,
+    required this.onChangedCx,
+    required this.onChangedCy,
+    required this.onChangedDx,
+    required this.onChangedDy,
+    required this.onChangedEx,
+    required this.onChangedEy,
   }) : super(key: key);
 
   @override
@@ -108,11 +108,11 @@ class NoteFormWidget extends StatelessWidget {
       );
 
   Widget buildCoordinate({
-    String point,
-    String initialXValue,
-    String initialYValue,
-    ValueChanged<String> onChangedX,
-    ValueChanged<String> onChangedY,
+    String? point,
+    String? initialXValue,
+    String? initialYValue,
+    ValueChanged<String>? onChangedX,
+    ValueChanged<String>? onChangedY,
   }) =>
       Row(children: [
         Expanded(

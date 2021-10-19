@@ -5,11 +5,11 @@ import 'package:sqflite/sqflite.dart';
 class NotesDatabase {
   static final NotesDatabase instance = NotesDatabase._init();
 
-  static Database _database;
+  static Database? _database;
 
   NotesDatabase._init();
 
-  Future<Database> get database async {
+  Future<Database?> get database async {
     if (_database != null) return _database;
 
     _database = await _initDB('notes.db');
@@ -58,14 +58,14 @@ CREATE TABLE $tableNotes (
     // final id = await db
     //     .rawInsert('INSERT INTO table_name ($columns) VALUES ($values)');
 
-    final id = await db.insert(tableNotes, note.toJson());
+    final id = await db!.insert(tableNotes, note.toJson());
     return note.copy(id: id);
   }
 
   Future<Note> readNote(int id) async {
     final db = await instance.database;
 
-    final maps = await db.query(
+    final maps = await db!.query(
       tableNotes,
       columns: NoteFields.values,
       where: '${NoteFields.id} = ?',
@@ -86,7 +86,7 @@ CREATE TABLE $tableNotes (
     // final result =
     //     await db.rawQuery('SELECT * FROM $tableNotes ORDER BY $orderBy');
 
-    final result = await db.query(tableNotes, orderBy: orderBy);
+    final result = await db!.query(tableNotes, orderBy: orderBy);
 
     return result.map((json) => Note.fromJson(json)).toList();
   }
@@ -94,7 +94,7 @@ CREATE TABLE $tableNotes (
   Future<int> update(Note note) async {
     final db = await instance.database;
 
-    return db.update(
+    return db!.update(
       tableNotes,
       note.toJson(),
       where: '${NoteFields.id} = ?',
@@ -105,7 +105,7 @@ CREATE TABLE $tableNotes (
   Future<int> delete(int id) async {
     final db = await instance.database;
 
-    return await db.delete(
+    return await db!.delete(
       tableNotes,
       where: '${NoteFields.id} = ?',
       whereArgs: [id],
@@ -115,6 +115,6 @@ CREATE TABLE $tableNotes (
   Future close() async {
     final db = await instance.database;
     _database = null;
-    db.close();
+    db!.close();
   }
 }

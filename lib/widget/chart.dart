@@ -28,14 +28,14 @@ class LineChartSample5 extends StatelessWidget {
             colors: [
               Colors.green,
               Colors.yellow,
-              Colors.yellow[800],
+              Colors.yellow[800]!,
             ],
           ),
           dotData: FlDotData(show: false),
           colors: [
             Colors.green,
             Colors.yellow,
-            Colors.yellow[800],
+            Colors.yellow[800]!,
           ],
           colorStops: [
             0.1,
@@ -52,7 +52,7 @@ class LineChartSample5 extends StatelessWidget {
       child: LineChart(
         LineChartData(
           showingTooltipIndicators: showIndexes.map((index) {
-            return ShowingTooltipIndicators(index, [
+            return ShowingTooltipIndicators(/*index, */ [
               LineBarSpot(tooltipsOnBar, lineBarsData.indexOf(tooltipsOnBar),
                   tooltipsOnBar.spots[index]),
             ]);
@@ -72,7 +72,7 @@ class LineChartSample5 extends StatelessWidget {
                         FlDotCirclePainter(
                       radius: 8,
                       color: lerpGradient(
-                          barData.colors, barData.colorStops, percent / 100),
+                          barData.colors, barData.colorStops ?? [], percent / 100),
                       strokeWidth: 2,
                       strokeColor: Color.fromRGBO(0, 0, 0, 0.2),
                     ),
@@ -115,7 +115,7 @@ class LineChartSample5 extends StatelessWidget {
                 getTitles: (val) {
                   return '';
                 },
-                getTextStyles: (value) => const TextStyle(
+                getTextStyles: (context, value) => const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white60,
                       fontFamily: 'Digital',
@@ -146,7 +146,7 @@ class LineChartSample5 extends StatelessWidget {
 }
 
 /// Lerps between a [LinearGradient] colors, based on [t]
-Color lerpGradient(List<Color> colors, List<double> stops, double t) {
+Color? lerpGradient(List<Color> colors, List<double> stops, double t) {
   if (stops.length != colors.length) {
     stops = [];
 
@@ -163,7 +163,7 @@ Color lerpGradient(List<Color> colors, List<double> stops, double t) {
     if (t <= leftStop) {
       return leftColor;
     } else if (t < rightStop) {
-      final sectionT = (t - leftStop) / (rightStop - leftStop);
+      double sectionT = (t - leftStop) / (rightStop - leftStop);
       return Color.lerp(leftColor, rightColor, sectionT);
     }
   }

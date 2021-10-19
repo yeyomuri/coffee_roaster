@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 final String tableNotes = 'notes';
 
 class NoteFields {
@@ -42,37 +40,37 @@ class Note {
   final String ey;
 
   const Note({
-    this.id,
-    @required this.title,
-    @required this.description,
-    @required this.createdTime,
-    @required this.ax,
-    @required this.ay,
-    @required this.bx,
-    @required this.by,
-    @required this.cx,
-    @required this.cy,
-    @required this.dx,
-    @required this.dy,
-    @required this.ex,
-    @required this.ey,
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.createdTime,
+    required this.ax,
+    required this.ay,
+    required this.bx,
+    required this.by,
+    required this.cx,
+    required this.cy,
+    required this.dx,
+    required this.dy,
+    required this.ex,
+    required this.ey,
   });
 
   Note copy({
-    int id,
-    String title,
-    String description,
-    DateTime createdTime,
-    String ax,
-    String ay,
-    String bx,
-    String by,
-    String cx,
-    String cy,
-    String dx,
-    String dy,
-    String ex,
-    String ey,
+    int? id,
+    String? title,
+    String? description,
+    DateTime? createdTime,
+    String? ax,
+    String? ay,
+    String? bx,
+    String? by,
+    String? cx,
+    String? cy,
+    String? dx,
+    String? dy,
+    String? ex,
+    String? ey,
   }) =>
       Note(
         id: id ?? this.id,
@@ -91,7 +89,7 @@ class Note {
         ey: ey ?? this.ey,
       );
 
-  static Note fromJson(Map<String, Object> json) => Note(
+  static Note fromJson(Map<String, Object?> json) => Note(
         id: json[NoteFields.id] as int,
         title: json[NoteFields.title] as String,
         description: json[NoteFields.description] as String,

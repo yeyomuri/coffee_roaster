@@ -13,10 +13,9 @@ final _lightColors = [
 
 class NoteCardWidget extends StatelessWidget {
   NoteCardWidget({
-    Key key,
-    @required this.note,
-    @required this.index,
-  }) : super(key: key);
+    required this.note,
+    required this.index,
+  });
 
   final Note note;
   final int index;
@@ -29,32 +28,27 @@ class NoteCardWidget extends StatelessWidget {
 
     return Card(
       color: color,
-      child: Container(
-        constraints: BoxConstraints(minHeight: 100),
-        padding: EdgeInsets.all(8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              time,
-              style: TextStyle(color: Colors.grey.shade700),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            time,
+            style: TextStyle(color: Colors.grey.shade700),
+          ),
+          SizedBox(height: 4),
+          Text(
+            note.title,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
             ),
-            SizedBox(height: 4),
-            Text(
-              note.title,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   /// To return different height for different widgets
-
 }

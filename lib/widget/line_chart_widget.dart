@@ -131,7 +131,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
   List<Color> gradientColors = [
     Colors.green,
     Colors.yellow,
-    Colors.yellow[800],
+    Colors.yellow[800]!,
   ];
   @override
   void initState() {

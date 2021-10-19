@@ -1,41 +1,42 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:mm_app/device.dart';
+
+import './BluetoothDeviceListEntry.dart';
 
 class SelectBondedDevicePage extends StatefulWidget {
   /// If true, on page start there is performed discovery upon the bonded devices.
   /// Then, if they are not avaliable, they would be disabled from the selection.
   final bool checkAvailability;
-  final Function onCahtPage;
 
-  const SelectBondedDevicePage(
-      {this.checkAvailability = true, @required this.onCahtPage});
+  const SelectBondedDevicePage({this.checkAvailability = true});
 
   @override
   _SelectBondedDevicePage createState() => new _SelectBondedDevicePage();
 }
 
 enum _DeviceAvailability {
-  //no,
+  no,
   maybe,
   yes,
 }
 
-class _DeviceWithAvailability extends BluetoothDevice {
+class _DeviceWithAvailability {
   BluetoothDevice device;
   _DeviceAvailability availability;
-  int rssi;
+  int? rssi;
 
   _DeviceWithAvailability(this.device, this.availability, [this.rssi]);
 }
 
 class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
-  List<_DeviceWithAvailability> devices = [];
+  List<_DeviceWithAvailability> devices =
+      List<_DeviceWithAvailability>.empty(growable: true);
 
   // Availability
-  StreamSubscription<BluetoothDiscoveryResult> _discoveryStreamSubscription;
-  bool _isDiscovering;
+  StreamSubscription<BluetoothDiscoveryResult>? _discoveryStreamSubscription;
+  bool _isDiscovering = false;
 
   _SelectBondedDevicePage();
 
@@ -68,13 +69,13 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
     });
   }
 
-/*   void _restartDiscovery() {
+  void _restartDiscovery() {
     setState(() {
       _isDiscovering = true;
     });
 
     _startDiscovery();
-  } */
+  }
 
   void _startDiscovery() {
     _discoveryStreamSubscription =
@@ -91,7 +92,7 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
       });
     });
 
-    _discoveryStreamSubscription.onDone(() {
+    _discoveryStreamSubscription?.onDone(() {
       setState(() {
         _isDiscovering = false;
       });
@@ -109,19 +110,37 @@ class _SelectBondedDevicePage extends State<SelectBondedDevicePage> {
   @override
   Widget build(BuildContext context) {
     List<BluetoothDeviceListEntry> list = devices
-        .map(
-          (_device) => BluetoothDeviceListEntry(
-            device: _device.device,
-            // rssi: _device.rssi,
-            // enabled: _device.availability == _DeviceAvailability.yes,
-            onTap: () {
-              widget.onCahtPage(_device.device);
-            },
-          ),
-        )
+        .map((_device) => BluetoothDeviceListEntry(
+              device: _device.device,
+              rssi: _device.rssi,
+              enabled: _device.availability == _DeviceAvailability.yes,
+              onTap: () {
+                Navigator.of(context).pop(_device.device);
+              },
+            ))
         .toList();
-    return ListView(
-      children: list,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Select device'),
+        actions: <Widget>[
+          _isDiscovering
+              ? FittedBox(
+                  child: Container(
+                    margin: new EdgeInsets.all(16.0),
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Colors.white,
+                      ),
+                    ),
+                  ),
+                )
+              : IconButton(
+                  icon: Icon(Icons.replay),
+                  onPressed: _restartDiscovery,
+                )
+        ],
+      ),
+      body: ListView(children: list),
     );
   }
 }

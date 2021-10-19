@@ -8,15 +8,15 @@ import 'package:mm_app/widget/line_chart_widget.dart';
 
 class ChatPage extends StatefulWidget {
   final BluetoothDevice server;
-  final List<FlSpot> perfilSpots;
-  const ChatPage({this.server, this.perfilSpots});
+  final List<FlSpot>? perfilSpots;
+  const ChatPage({required this.server, this.perfilSpots});
 
   @override
   _ChatPage createState() => new _ChatPage();
 }
 
 class _ChatPage extends State<ChatPage> {
-  BluetoothConnection connection;
+  late BluetoothConnection? connection;
 
   List<String> messages = [];
   List<double> messagesDouble = [0];
@@ -30,7 +30,7 @@ class _ChatPage extends State<ChatPage> {
   final ScrollController listScrollController = new ScrollController();
 
   bool isConnecting = true;
-  bool get isConnected => connection != null && connection.isConnected;
+  bool get isConnected => connection != null && connection!.isConnected;
 
   bool isDisconnecting = false;
   //Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -47,7 +47,7 @@ class _ChatPage extends State<ChatPage> {
         isDisconnecting = false;
       });
 
-      connection.input.listen(_onDataReceived).onDone(() {
+      connection!.input!.listen(_onDataReceived).onDone(() {
         // Example: Detect which side closed the connection
         // There should be `isDisconnecting` flag to show are we are (locally)
         // in middle of disconnecting process, should be set before calling
@@ -74,7 +74,7 @@ class _ChatPage extends State<ChatPage> {
     // Avoid memory leak (`setState` after dispose) and disconnect
     if (isConnected) {
       isDisconnecting = true;
-      connection.dispose();
+      connection!.dispose();
       connection = null;
     }
 
@@ -88,7 +88,8 @@ class _ChatPage extends State<ChatPage> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          LineChartWidget(messagesDouble.last, widget.perfilSpots),
+          LineChartWidget(
+              messagesDouble.last, widget.perfilSpots ?? [FlSpot(0, 0)]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -194,8 +195,8 @@ class _ChatPage extends State<ChatPage> {
 
     if (text.length > 0) {
       try {
-        connection.output.add(utf8.encode(text + "\r\n"));
-        await connection.output.allSent;
+        connection!.output.add(Uint8List.fromList(utf8.encode(text + "\r\n")));
+        await connection!.output.allSent;
 
         /* setState(() {
           //messages.add(_Message(clientID, text));

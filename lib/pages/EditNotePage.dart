@@ -5,9 +5,9 @@ import 'package:mm_app/widget/chart.dart';
 import 'package:mm_app/widget/note_form_widget.dart';
 
 class AddEditNotePage extends StatefulWidget {
-  final Note note;
+  final Note? note;
   const AddEditNotePage({
-    Key key,
+    Key? key,
     this.note,
   }) : super(key: key);
   @override
@@ -16,26 +16,26 @@ class AddEditNotePage extends StatefulWidget {
 
 class _AddEditNotePageState extends State<AddEditNotePage> {
   final _formKey = GlobalKey<FormState>();
-  String title;
-  String description;
-  String ax, ay, bx, by, cx, cy, dx, dy, ex, ey;
+  late String title;
+  late String description;
+  late String ax, ay, bx, by, cx, cy, dx, dy, ex, ey;
 
   @override
   void initState() {
     super.initState();
 
-    title = widget.note?.title ?? '';
-    description = widget.note?.description ?? '';
-    ax = widget.note?.ax ?? "";
-    ay = widget.note?.ay ?? "";
-    bx = widget.note?.bx ?? "";
-    by = widget.note?.by ?? "";
-    cx = widget.note?.cx ?? "";
-    cy = widget.note?.cy ?? "";
-    dx = widget.note?.dx ?? "";
-    dy = widget.note?.dy ?? "";
-    ex = widget.note?.ex ?? "";
-    ey = widget.note?.ey ?? "";
+    title = widget.note!.title;
+    description = widget.note!.description;
+    ax = widget.note!.ax;
+    ay = widget.note!.ay;
+    bx = widget.note!.bx;
+    by = widget.note!.by;
+    cx = widget.note!.cx;
+    cy = widget.note!.cy;
+    dx = widget.note!.dx;
+    dy = widget.note!.dy;
+    ex = widget.note!.ex;
+    ey = widget.note!.ey;
   }
 
   @override
@@ -135,9 +135,10 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   }
 
   void addOrUpdateNote() async {
-    final isValid = _formKey.currentState.validate();
+    final isValid = _formKey.currentState!.validate();
 
     if (isValid) {
+      // ignore: unnecessary_null_comparison
       final isUpdating = widget.note != null;
 
       if (isUpdating) {
@@ -150,7 +151,7 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
   }
 
   Future updateNote() async {
-    final note = widget.note.copy(
+    final note = widget.note!.copy(
       title: title,
       description: description,
       ax: ax,
@@ -183,6 +184,8 @@ class _AddEditNotePageState extends State<AddEditNotePage> {
       dy: dy,
       ex: ex,
       ey: ey,
+      id: widget.note!.id,
+      //id: null,
     );
     await NotesDatabase.instance.create(note);
   }
